@@ -22,19 +22,19 @@ namespace YoutubeDownloaderV3
         private Form activeForm;
         public Form1()
         {
-            InitializeComponent();
-            videoDgv.RowTemplate.Height = 200;
+            InitializeComponent(); 
+            videoDgv.RowTemplate.Height = 200; // set default row height 200, it's for doesn't look small images when search
             changeLocation.Visible = false;
             mp3Cb.Checked = true;
-            if (Properties.Settings.Default.mediaPath != "")
+            if (Properties.Settings.Default.mediaPath != "") // add the location to the textbox if there is a location saved in the properties.
             {
                 locationTxt.Text = Properties.Settings.Default.mediaPath;
             }
         }
 
-        void downloadSucces()
+        void downloadSucces() // Download Success
         {
-            progressBar1.Value = 100;
+            progressBar1.Value = 100; // Hard-coding not necessary. For looking good.
             lblStatus.Text = "İndirme Başarılı.";
             listCounter = 0;
             if (mp3Cb.Enabled == false)
@@ -48,20 +48,20 @@ namespace YoutubeDownloaderV3
             downloadingNow = false;
         }
 
-        void downloadFailed()
+        void downloadFailed() // Download Failed
         {
-            progressBar1.Value = 100;
+            progressBar1.Value = 100; // Hard-coding not necessary. For looking good.
             progressBar1.ForeColor = Color.Red;
             lblStatus.Text = "İndirme Başarısız.";
             downloadingNow = false;
         }
 
-        void downloading()
+        void downloading() // Downlading
         {
-            progressBar1.Value = progressBarValue + 20;
+            progressBar1.Value = progressBarValue + 20; // Hard-coding not necessary. For looking good.
             lblStatus.Text = "İndirme başladı";
-            listCounter += 1;
-            lblInfo.Text = mediaList[listCounter];
+            listCounter += 1; // Add music count 
+            lblInfo.Text = mediaList[listCounter]; // Works in the order of the media to be downloaded
             downloadingNow = true;
         }
 
@@ -69,35 +69,35 @@ namespace YoutubeDownloaderV3
         int progressBarValue = 10;
         int counter = 0;
         int listCounter = 0;
-        List<string> mediaList = new List<string>();
-        bool check = true;
+        List<string> mediaList = new List<string>(); // When it searches, it transfers the search results here.
+        bool check = true; // Since the default title value is 3 dots, it is a one-time check so that 3 dots are not added to the list when the download button is pressed.
         bool downloadingNow;
 
-        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]                                          //
+        private extern static void ReleaseCapture();                                                      //  This code block is written to assign the added panel 
+                                                                                                          //  to act as a topbar and to be dragged with the form 
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]                                             //  has no borders.
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);     //
 
-        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
-        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
-
-        private void panelTitleBar_MouseDown_1(object sender, MouseEventArgs e)
-        {
-            ReleaseCapture();
-            SendMessage(this.Handle, 0x112, 0xf012, 0);
-        }
+        private void panelTitleBar_MouseDown_1(object sender, MouseEventArgs e)                           // 
+        {                                                                                                 //
+            ReleaseCapture();                                                                             //  Mouse movement is captured and location change is provided with response.
+            SendMessage(this.Handle, 0x112, 0xf012, 0);                                                   //
+        }                                                                                                 //
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            if(downloadingNow == true)
+            if(downloadingNow == true) // Show messagebox if there is any downloaded media to make sure the user wants to close the program.
             {
                 DialogResult result = MessageBox.Show("İndirme devam ediyor çıkmak istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if(result == DialogResult.Yes)
                 {
-                    Application.Exit();
+                    Application.Exit(); // Exit anyway
                 }
             }
             else
             {
-                Application.Exit();
+                Application.Exit(); // Exit if there is no media to download.
             }
         }
 
@@ -106,7 +106,7 @@ namespace YoutubeDownloaderV3
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)  // Found search results and add list
         {
             VideoSearch items = new VideoSearch();
             List<Video> list = new List<Video>();
@@ -127,10 +127,10 @@ namespace YoutubeDownloaderV3
                 list.Add(video);
 
             }
-            videoBindingSource.DataSource = list;
+            videoBindingSource.DataSource = list; // datagridview 
             videoDgv.CurrentCell = null;
         }
-        void GetMedia()
+        void GetMedia()  // Media Informations
         {
             WebRequest req = WebRequest.Create(mediaLinkTxt.Text);
             WebResponse res = req.GetResponse();
@@ -158,8 +158,8 @@ namespace YoutubeDownloaderV3
             {
                 mp3Cb.Checked = false;
             }
-            counter += 1;
-            lblQueu.Text = "Sırada olan şarkı sayısı: " + counter.ToString();
+            counter += 1; // Downloading media counter
+            lblQueu.Text = "Sırada olan şarkı sayısı: " + counter.ToString(); // Queu label
             progressBar1.Value = 0;
             if (mediaLinkTxt.Text == "" || locationTxt.Text == "")
             {
@@ -173,6 +173,7 @@ namespace YoutubeDownloaderV3
                     GetMedia();
                     progressBar1.Value += progressBarValue;
                     lblStatus.Text = "İndirme başladı.";
+                    // Downloading part
                     var yt = YouTube.Default;
                     var media = await yt.GetVideoAsync(mediaLinkTxt.Text);
                     progressBar1.Value += progressBarValue;
@@ -181,8 +182,8 @@ namespace YoutubeDownloaderV3
 
                     var inputfile = new MediaToolkit.Model.MediaFile { Filename = locationTxt.Text + @"\" + media.FullName };
                     var outputfile = new MediaToolkit.Model.MediaFile { Filename = $"{locationTxt.Text + @"\" + media.FullName}.mp3" };
+                    // Downloading part
                     progressBar1.Value += progressBarValue;
-
 
                     using (var eng = new Engine())
                     {
@@ -191,6 +192,7 @@ namespace YoutubeDownloaderV3
                     }
                     progressBar1.Value += progressBarValue + 10;
 
+                    // Program downloads mp3 and mp4 but it deletes the one we did not choose after the download is complete.
                     if (mp3 == true)
                     {
                         File.Delete(locationTxt.Text + @"\" + media.FullName);
@@ -215,12 +217,12 @@ namespace YoutubeDownloaderV3
 
                     lblQueu.Text = "Sırada olan şarkı sayısı: " + counter.ToString();
                 }
-                catch (UriFormatException)
+                catch (UriFormatException) // Link Error
                 {
                     MessageBox.Show("Hatalı link girişi.", "HATA", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
                 }
-                catch (Exception ex)
+                catch (Exception ex) // Unexpected Error
                 {
                     MessageBox.Show(ex.ToString(), "HATA", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     downloadFailed();
@@ -264,7 +266,7 @@ namespace YoutubeDownloaderV3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (locationTxt.Text != "")
+            if (locationTxt.Text != "")       
             {
                 locationTxt.Enabled = false;
                 changeLocation.Visible = true;
@@ -273,7 +275,7 @@ namespace YoutubeDownloaderV3
 
         private void videoDgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(videoDgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+            if(videoDgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null) // Add link to mediaLinkTxt when click on the link.
             {
                 mediaLinkTxt.Text = videoDgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             }

@@ -54,11 +54,11 @@
             this.mediaLinkTxt = new System.Windows.Forms.TextBox();
             this.downladedMedia = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.videoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.thumbnailDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.urlDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.videoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panelTitleBar.SuspendLayout();
             this.panelHome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.videoDgv)).BeginInit();
@@ -365,10 +365,6 @@
             this.label5.TabIndex = 60;
             this.label5.Text = "İndirilecekler Listesi";
             // 
-            // videoBindingSource
-            // 
-            this.videoBindingSource.DataSource = typeof(YoutubeDownloaderV3.Video);
-            // 
             // thumbnailDataGridViewImageColumn
             // 
             this.thumbnailDataGridViewImageColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -400,6 +396,10 @@
             this.urlDataGridViewTextBoxColumn.MinimumWidth = 6;
             this.urlDataGridViewTextBoxColumn.Name = "urlDataGridViewTextBoxColumn";
             this.urlDataGridViewTextBoxColumn.Width = 290;
+            // 
+            // videoBindingSource
+            // 
+            this.videoBindingSource.DataSource = typeof(YoutubeDownloaderV3.Video);
             // 
             // Form1
             // 
