@@ -5,7 +5,9 @@ Youtube'da olan videoları mp3 ve mp4 olarak indirebilmek için geliştirilmiş 
 Kullandığım nuget paketleri: 
 
   · VideoLibrary / https://www.nuget.org/packages/VideoLibrary
+  
   · MediaToolKit / https://www.nuget.org/packages/MediaToolkit
+  
   · Mayerch1.YoutubeSearch / https://www.nuget.org/packages/Mayerch1.YoutubeSearch/2.2.0
   
 VideoLibrary daha detaylı bilgi için: https://github.com/omansak/libvideo
