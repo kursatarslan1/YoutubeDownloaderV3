@@ -1,6 +1,6 @@
 # YoutubeDownloaderV3
 
-Youtube'da olan videoları mp3 ve mp4 olarak indirebilmek için geliştirilmiş olan kütüphaneleri kullanışlı bir biçimde bir araya getirebildiğimi düşünüyorum
+Youtube'da olan videoları mp3 ve mp4 olarak indirebilmek için geliştirilmiş olan bir program. Kütüphaneleri kullanışlı bir biçimde bir araya getirebildiğimi düşünüyorum.
 
 Kullandığım nuget paketleri: 
 
